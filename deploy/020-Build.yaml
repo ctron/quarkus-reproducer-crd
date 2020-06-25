@@ -46,7 +46,7 @@ spec:
     dockerStrategy:
       from:
         kind: ImageStreamTag
-        name: ubi-minimal:latest
+        name: ubi8-minimal:latest
   output:
     to:
       kind: ImageStreamTag
