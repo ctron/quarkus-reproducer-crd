@@ -34,3 +34,7 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
