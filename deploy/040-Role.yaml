@@ -1,0 +1,10 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: my-operator
+  labels:
+    app.kubernetes.io/name: my-operator
+rules:
+  - apiGroups: ["bar"]
+    resources: ["foos", "foos/status"]
+    verbs: ["create", "update", "delete", "get", "watch", "list"]

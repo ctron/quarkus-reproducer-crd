@@ -1,0 +1,53 @@
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: my-operator-quarkus
+spec:
+  triggers:
+    - type: ImageChange
+  source:
+    git:
+      uri: "https://github.com/ctron/quarkus-reproducer-crd"
+      ref: master
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: quarkus-native-s2i:19.3
+  output:
+    to:
+      kind: ImageStreamTag
+      name: my-operator-quarkus:latest
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: my-operator
+spec:
+  triggers:
+    - type: ImageChange
+  source:
+    type: Dockerfile
+    dockerfile: |
+      FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+      COPY application /application
+      CMD /application
+      EXPOSE 8080
+    images:
+      - as: null
+        from:
+          kind: ImageStreamTag
+          name: my-operator-quarkus:latest
+        paths:
+          - destinationDir: .
+            sourcePath: /home/quarkus/application
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: ubi-minimal:latest
+  output:
+    to:
+      kind: ImageStreamTag
+      name: my-operator:latest
