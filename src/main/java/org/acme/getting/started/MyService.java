@@ -1,10 +1,10 @@
 package org.acme.getting.started;
 
-import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.informers.ResourceEventHandler;
 import io.fabric8.kubernetes.client.informers.SharedIndexInformer;
 import io.fabric8.kubernetes.client.informers.SharedInformerFactory;
+import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 import io.quarkus.runtime.StartupEvent;
 import org.acme.getting.started.crd.Crd;
 import org.acme.getting.started.crd.CustomResources;
@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,10 @@ public class MyService {
     private SharedIndexInformer<Foo> informer;
 
     public void onStart(@Observes StartupEvent event) {
+
+        // FIXME: the next lines explicitly register the CRDs, doesn't help though
+        KubernetesDeserializer.registerCustomKind(Crd.API_VERSION, Foo.KIND, Foo.class);
+        KubernetesDeserializer.registerCustomKind(Crd.API_VERSION, FooList.KIND, FooList.class);
 
         // create a new informer factory
         this.factory = client.informers();

@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    app: my-operator
+    app.kubernetes.io/name: my-operator
   name: my-operator
 spec:
   ports:

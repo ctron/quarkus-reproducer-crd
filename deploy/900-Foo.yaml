@@ -1,0 +1,5 @@
+apiVersion: foo.bar/v1alpha1
+kind: Foo
+metadata:
+  name: foo1
+spec: {}

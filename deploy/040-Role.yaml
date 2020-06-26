@@ -5,6 +5,6 @@ metadata:
   labels:
     app.kubernetes.io/name: my-operator
 rules:
-  - apiGroups: ["bar"]
+  - apiGroups: ["foo.bar"]
     resources: ["foos", "foos/status"]
     verbs: ["create", "update", "delete", "get", "watch", "list"]
